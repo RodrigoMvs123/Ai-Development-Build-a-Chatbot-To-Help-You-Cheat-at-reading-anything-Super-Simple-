@@ -4,6 +4,8 @@ https://www.youtube.com/watch?v=8aD20j-A9rQ
 
 https://raw.githubusercontent.com/RodrigoMvs123/Ai-Development-Build-a-Chatbot-To-Help-You-Cheat-at-reading-anything-Super-Simple-/master/README.md
 
+https://github.com/RodrigoMvs123/Ai-Development-Build-a-Chatbot-To-Help-You-Cheat-at-reading-anything-Super-Simple-/blame/master/README.md
+
 https://singlestore.com 
 
 React APP
