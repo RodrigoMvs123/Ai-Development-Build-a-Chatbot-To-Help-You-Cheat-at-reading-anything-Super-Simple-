@@ -1,4 +1,4 @@
-# Ai-Development-Build-a-Chatbot-To-Help-You-Cheat-at-reading-anything-Super-Simple-
+## Ai-Development-Build-a-Chatbot-To-Help-You-Cheat-at-reading-anything-Super-Simple-
 
 https://www.youtube.com/watch?v=8aD20j-A9rQ
 
@@ -9,23 +9,32 @@ https://github.com/RodrigoMvs123/Ai-Development-Build-a-Chatbot-To-Help-You-Chea
 https://singlestore.com 
 
 React APP
+
 Prompt
+```
 C: \Users\Matheus>cd Desktop
 C: \Users\Matheus\Desktop>cd Rodrigo
 C: \Users\Matheus\Desktop\Rodrigo>cd Visual Studio Code
 C: \Users\Matheus\Desktop\Rodrigo\Visual Studio Code>cd Ania Kubow
 C: \Users\Matheus\Desktop\Rodrigo\Visual Studio Code\Ania Kubow>cd Ai Development! Build a Chatbot To Help You Cheat at Reading anything! (Super Simple!)>
 C: \Users\Matheus\Desktop\Rodrigo\Visual Studio Code\Ania Kubow\Ai Development! Build a Chatbot To Help You Cheat at Reading anything! (Super Simple!)>npx create-singlestoredb-app pdf-ai-reader acc7dba7bd83f30fa1df55efac007292f5ea39bdf4393dc28145731f47cfc69d
+```
 
-Single Store UI
+## Single Store UI
+```
 ORG: RODRIGO MV SOARE´S ORGANIZATION
 API Keys
+```
 Create API Key
+```
 API Key Name
 codewithania
 Expiration
 Never Expires 
+```
+
 Create API Key
+```
 API Key
 acc7dba7bd83f30fa1df55efac007292f5ea39bdf4393dc28145731f47cfc69d
 API Keys
@@ -34,7 +43,10 @@ codewithania           26th Jul 2023            never expires
 SingleStore
 >CLOUD
 pdf-ai-reader-workspace-group-1
+```
+
 Create Database
+```
 Choose a new database name
 reader_data
 Create Database
@@ -59,21 +71,32 @@ Edit    View    Run    Kernel
 Code                    Markdown
 ## Install Libraries
 Install Libraries
+```
+
 Code
+```
 !pip install langchain - -quiet
 !pip install openai - -quiet
 !pip install pdf2image - -quiet
 !pip install tiktoken - -quiet
 !pip install unstructured - -quiet
+```
+
 Code                     Markdown
+
 ## Load the PDF from on online location
+```
 Load the PDF from on online location
 Code
 from langchain.document_loaders import OnlinePDFLoader
+```
 
 # if using on your s2 workspace remember to add a firewall exception for https://wolfpaulus.com
+```
 loader = OnlinePDFLoader(“https://wolfpaulus.com/wp-content/uploads/2017/05/field-guide-to-data-science.pdf”) 
+``` 
 
+```
 data = loader.load()
 Save 
 Edit Firewall
@@ -81,7 +104,10 @@ Add FQDN
 wolfpaulus.com
 Save
 Code                            Markdown
+```
+
 ## Check to see how many documents and chars are in the book
+```
 Check to see how many documents and chars are in the book
 Code
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -91,25 +117,39 @@ print (f“There are {len(data[0].page_content)} characters in your document”)
 You have 1 document(s) in your data
 There are 199527 characters in your document
 Code                                Markdown
+```
+
 ## Now let´s split the data into chunks before we turn them into embeddings
+```
 Now let´s split the data into chunks before we turn them into embeddings
 Code
+```
 # Split the data
+```
 text_splitter =RecursiveCharacterTextSplitter(chunk_size = 2000, chunk_overlap = 0)
 texts = text_splitter.split_documents(data)
+```
 
 # Check how many documents we have now
+```
 print (f”You have {len(texts)} pages”)
 You have 139 pages
 Code                                 Markdown
+```
 ## Let´s convert the chunks into embeddings and them store it in a SingleStore table
+```
 Let´s convert the chunks into embeddings and them store it in a SingleStore table
 Code                               Markdown
+```
+
 ## Let´s create the table first
+```
 Let´s create the table first
 Code
 %%sql
+```
 
+```
 USE reader_data;
 DROP TABLE IF EXISTS my_book;
 CREATE TABLE IF NOT EXISTS my_book (
@@ -117,6 +157,9 @@ CREATE TABLE IF NOT EXISTS my_book (
        text TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
        embedding BLOB
 );
+```
+
+```
 Code
 SingleStore
 CLOUD
@@ -137,15 +180,22 @@ pdf-ai-reader-workspace-group-1         reader_data
 Edit    View    Run    Kernel
 Code
 import openai
+```
 
 # Check to see if there is an environment variable with your API key,
+
 # if not use what you put bellow
 
+```
 OPENAI_API_KEY = os.environ.get(
        ‘OPENAI_API_KEY’,
        ‘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’
 ) 
-https://platform.openai.com/ 
+```
+
+- https://platform.openai.com/ 
+
+```
 Personal 
 View API Keys
 Create new secret key 
@@ -159,15 +209,23 @@ from sqlalchemy import *
 db_connection = create_engine(connection_url)
 Code
 from langchain.embeddings import OpenAIEmbeddings
+```
 
 # Initializing the OpenAIEmbeddings
+```
 embedder =  OpenAIEmbeddings(open_ai_key = “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
 ”)
 Code
-## Now let´s add the embeddings to the my_book table. Truncate to make sure we don´t overwrite
+```
+
+## Now let´s add the embeddings to the my_book table. 
+```
+Truncate to make sure we don´t overwrite
 Now let´s add the embeddings to the my_book table. Truncate to make sure we don´t overwrite
 Code
+```
 # Clear the my_book table
+```
 db_connection.execute(“TRUNCATE TABLE my_book”)
 
 # Iterate over the texts
@@ -193,8 +251,10 @@ for i, document in enumerate(texts):
        ”””
 
 db.connection.execute(stmt, (int(i), str(text_content), str(embedding)))
+```
 
 SigleStore
+```
 >CLOUD
 pdf-ai-reader-workspace-group-1
 Database
@@ -215,24 +275,32 @@ pdf-ai-reader-workspace-group-1         reader_data
 Edit    View    Run    Kernel
 Code
 %%sql
+```
 
+```
 USE reader_data
 SELECT JSON_ARRAY_UNPACK_F32(embedding).text
 FROM my_book
 WHERE id = 5;
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
 .env
+```
 
+```env
 .env
 HOST="svc-977d6e0f-dcc8-41ac-b4e5-7f37983d8d1d-dml.aws-london-1.svc.singlestore.com"
 PASSWORD="Nj5mSFZYcoASSKIPFmbhUL;h"
 OPENAI="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"
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -240,7 +308,9 @@ pdf-ai-reader
 src 
 client
 routes.ts
+```
 
+```typescript
 routes.ts
 import * as express from "express";
 import {
@@ -296,17 +366,23 @@ router.post("/api/database", bodyParser.json(), async (req, res) => {
 });
 
 export default router;
+```
 
-Visual Studio Code
+## Visual Studio Code
 Terminal 
+```
 npm i openai
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
 connection.ts
+```
 
+```typescript
 connection.ts
 import * as mysql from "mysql2/promise";
 import * as dotenv from "dotenv";
@@ -383,8 +459,10 @@ export async function selectTable({
         return error;
     }
 }
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -392,7 +470,9 @@ pdf-ai-reader
 src
 client
 App.tsx
+```
 
+```typescript
 App.tsx
 import * as React from "react";
 
@@ -423,16 +503,22 @@ import './app.scss'
 render(<React.StrictMode>
     <App />
     </React.StrictMode>, document.getElementById("root"))
+```
 
-Visual Studio Code
+## Visual Studio Code
 Terminal 
+```
 npm run dev
+```
 
 localhost:3000
+
 Dev
+
 Inspect
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -440,7 +526,9 @@ pdf-ai-reader
 src
 client
 App.tsx
+```
 
+```typescript
 App.tsx
 import * as React from "react";
 
@@ -468,12 +556,14 @@ const App () => {
 }
 
 export default App
+```
 
-https://www.compart.com/en/unicode/U+25D3 
-https://getwaves.io/ 
-https://www.compart.com/en/unicode/U+21E8 
+- https://www.compart.com/en/unicode/U+25D3 
+- https://getwaves.io/ 
+- https://www.compart.com/en/unicode/U+21E8 
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -481,7 +571,9 @@ pdf-ai-reader
 src
 client
 app.scss
+```
 
+```scss
 app.scss
 body {
     margin: 0;
@@ -573,8 +665,10 @@ button {
 .response {
     margin-left: 85px;
 }
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -582,7 +676,9 @@ pdf-ai-reader
 src
 client
 App.tsx
+```
 
+```typescript
 App.tsx
 import * as React from "react";
 
@@ -614,8 +710,10 @@ const App () => {
 }
 
 export default App
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -623,7 +721,9 @@ pdf-ai-reader
 src 
 client
 routes.ts
+```
 
+```typescript
 routes.ts
 import * as express from "express";
 import {
@@ -682,15 +782,19 @@ router.get("/api/database/:text",async (req, res) => {
        const text = req.params.text
 
 })
+```
 
-Visual Studio Code
+## Visual Studio Code
 Terminal 
+
 Server listening on port:3000
+
 I am some text
 
 export default router;
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -698,7 +802,9 @@ pdf-ai-reader
 src
 client
 App.tsx
+```
 
+```typescript
 App.tsx
 import * as React from "react";
 
@@ -741,8 +847,10 @@ const App () => {
 }
 
 export default App
+```
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -750,7 +858,9 @@ pdf-ai-reader
 src 
 client
 routes.ts
+```
 
+```typescript
 routes.ts
 import * as express from "express";
 import {
@@ -825,15 +935,19 @@ const configuration = new Configuration({
 })
 
 export default router;
+```
 
-https://platform.openai.com/docs/api-reference/embeddings 
+- https://platform.openai.com/docs/api-reference/embeddings 
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
 connection.ts
+```
 
+```typescript
 connection.ts
 import * as mysql from "mysql2/promise";
 import * as dotenv from "dotenv";
@@ -942,14 +1056,18 @@ export async function readData({
         return error
     }
 }
+```
 
 OPEN EDITORS
+```
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
 pdf-ai-reader
 src 
 client
 routes.ts
+```
 
+```typescript
 routes.ts
 import * as express from "express";
 import {
@@ -1040,11 +1158,14 @@ const configuration = new Configuration({
 })
 
 export default router;
+```
 
-https://platform.openai.com/docs/api-reference/chat/create 
+- https://platform.openai.com/docs/api-reference/chat/create 
+
 localhost:3000/api/database/data
 
-Visual Studio Code
+## Visual Studio Code
+```
 Explorer
 OPEN EDITORS
 Ai Development! Build a Chatbot To Help You Cheat at Reading Anything! (Super Simple!)
@@ -1052,7 +1173,9 @@ pdf-ai-reader
 src
 client
 App.tsx
+```
 
+```typescript
 App.tsx
 import * as React from "react";
 
@@ -1108,5 +1231,5 @@ const App () => {
 }
 
 export default App
-
+```
 
